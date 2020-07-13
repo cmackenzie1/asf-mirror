@@ -20,13 +20,10 @@ echo "Updating APT-GET"
 apt-get update -y
 
 echo "Installing apache2 HTTP Server"
-apt-get install -y apache2 wget curl unzip
+apt-get install -y apache2 wget curl git 
 
 echo "Installing scripts"
-mkdir -p ${ASF_HOME}
-wget --no-cache ${ASF_URL} -O ${USER_HOME}/asf-mirror.zip
-unzip -o ${USER_HOME}/asf-mirror.zip -d asf-mirror-unzipped
-mv ${USER_HOME}/asf-mirror-unzipped/asf-mirror-master ${ASF_HOME}
+git clone https://github.com/cmackenzie1/asf-mirror.git
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
