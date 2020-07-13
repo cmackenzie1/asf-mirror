@@ -27,8 +27,6 @@ chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
 rm -f ${APACHE2_SITES_ENABLED}/apache-mirror.conf
-
-echo "Downloading Apache Conf file"
 cp ${ASF_APACHE2_CONF} ${APACHE2_SITES_AVAILABLE}/apache-mirror.conf
 
 echo "Linking files"
