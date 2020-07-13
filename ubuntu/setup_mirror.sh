@@ -5,33 +5,42 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-APACHE2_CONF_URL="https://raw.githubusercontent.com/cmackenzie1/asf-mirror/master/apache2/asf-mirror.conf"
-APACHE2_README_URL="https://raw.githubusercontent.com/cmackenzie1/asf-mirror/master/README.html"
-APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available/"
-APACHE2_SITES_ENABLED="/etc/apache2/sites-enabled/"
+USER_HOME="/home/ubuntu"
+ASF_HOME="${USER_HOME}/asf-mirror"
+ASF_URL="https://github.com/cmackenzie1/asf-mirror/archive/master.zip"
+ASF_APACHE2_CONF="${ASF_HOME}/apache2/asf-mirror.conf"
+ASF_APACHE2_README="${ASF_HOME}/README.html"
+APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
+APACHE2_SITES_ENABLED="/etc/apache2/sites-enabled"
 
 echo "Updating APT-GET"
-apt-get update
+apt-get update -y
 
 echo "Installing apache2 HTTP Server"
-apt-get install -y apache2 wget curl
+apt-get install -y apache2 wget curl unzip
+
+echo "Installing scripts"
+mkdir -p ${ASF_HOME}
+wget ${ASF_URL} -O ${USER_HOME}/asf-mirror.zip
+unzip -o ${USER_HOME}/asf-mirror.zip -d ${ASF_HOME}
+chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
-rm -f /etc/apache2/sites-enabled/apache-mirror.conf
+rm -f ${APACHE2_SITES_ENABLED}/apache-mirror.conf
 
 echo "Downloading Apache Conf file"
-wget ${APACHE2_CONF_URL}  -O /etc/apache2/sites-available/apache-mirror.conf
+cp ${ASF_APACHE2_CONF} ${APACHE2_SITES_AVAILABLE}/apache-mirror.conf
 
 echo "Linking files"
 # ln -s [SOURCE] [DEST]
-ln -s /etc/apache2/sites-available/apache-mirror.conf /etc/apache2/sites-enabled/apache-mirror.conf
+ln -s ${APACHE2_SITES_AVAILABLE}/apache-mirror.conf ${APACHE2_SITES_ENABLED}/apache-mirror.conf
 
 echo "Restart apache2 server"
 service apache2 restart
 
 echo "Ensure file permissions are correct"
-wget ${APACHE2_README_URL} -O /data/asf/README.html
+cp ${ASF_APACHE2_README} /data/asf/README.html
 chgrp www-data /data/asf/
 
 echo "Install cron job"
-wget ${CRONTAB_ENTRY_URL} -O /etc/cron.d/asf-sync
+cp ${ASF_CRONTAB} /etc/cron.d/asf-sync
