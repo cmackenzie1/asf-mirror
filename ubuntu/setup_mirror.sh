@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+set -e
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit
@@ -16,7 +17,7 @@ echo "Downloading Apache Conf file"
 wget ${APACHE2_CONF_URL}  -O /etc/apache2/sites-available/apache-mirror.conf
 
 echo "Linking files"
-rm /etc/apache2/sites-available/apache-mirror.conf || true
+rm /etc/apache2/sites-enabled/apache-mirror.conf || true
 ln -s /etc/apache2/sites-available/apache-mirror.conf /etc/apache2/sites-enabled/apache-mirror.conf
 
 echo "Restart apache2 server"
