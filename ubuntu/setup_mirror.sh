@@ -18,12 +18,11 @@ rm -rf ${ASF_HOME}
 
 echo "Updating APT-GET"
 apt-get update -y
-
 echo "Installing apache2 HTTP Server"
 apt-get install -y apache2 wget curl git 
 
 echo "Installing scripts"
-git clone https://github.com/cmackenzie1/asf-mirror.git
+git clone https://github.com/cmackenzie1/asf-mirror.git ${ASF_HOME}
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
@@ -43,3 +42,5 @@ chgrp www-data /data/asf/
 
 echo "Install cron job"
 cp ${ASF_CRONTAB} /etc/cron.d/asf-sync
+
+echo "Done!"
