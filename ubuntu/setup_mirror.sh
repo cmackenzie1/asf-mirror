@@ -8,7 +8,7 @@ fi
 USER_HOME="/home/ubuntu"
 ASF_HOME="${USER_HOME}/asf-mirror"
 ASF_URL="https://github.com/cmackenzie1/asf-mirror/archive/master.zip"
-ASF_CRONTAB="${ASF_HOME}/crontab/afs-sync"
+ASF_CRONTAB="${ASF_HOME}/crontab/asf-sync"
 ASF_APACHE2_CONF="${ASF_HOME}/apache2/asf-mirror.conf"
 ASF_APACHE2_README="${ASF_HOME}/README.html"
 APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
