@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 USER_HOME="/home/ubuntu"
-ASF_HOME="${USER_HOME}/asf-mirror"
+ASF_HOME="${USER_HOME}/asf-mirror-master"
 ASF_URL="https://github.com/cmackenzie1/asf-mirror/archive/master.zip"
 ASF_APACHE2_CONF="${ASF_HOME}/apache2/asf-mirror.conf"
 ASF_APACHE2_README="${ASF_HOME}/README.html"
@@ -22,7 +22,7 @@ apt-get install -y apache2 wget curl unzip
 echo "Installing scripts"
 mkdir -p ${ASF_HOME}
 wget ${ASF_URL} -O ${USER_HOME}/asf-mirror.zip
-unzip -o ${USER_HOME}/asf-mirror.zip -d ${ASF_HOME}
+unzip -o ${USER_HOME}/asf-mirror.zip
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
