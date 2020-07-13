@@ -4,6 +4,8 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+APACHE2_CONF_URL="https://raw.githubusercontent.com/cmackenzie1/asf-mirror/master/apache2/asf-mirror.conf"
+
 echo "Updating APT-GET"
 apt-get update
 
@@ -11,7 +13,7 @@ echo "Installing apache2 HTTP Server"
 apt-get install -y apache2
 
 echo "Downloading Apache Conf file"
-wget https://raw.githubusercontent.com/cmackenzie1/asf-mirror/master/asf-mirror.conf -O /etc/apache2/sites-available/apache-mirror.conf
+wget ${APACHE2_CONF_URL}  -O /etc/apache2/sites-available/apache-mirror.conf
 
 echo "Linking files"
 rm /etc/apache2/sites-available/apache-mirror.conf || true
