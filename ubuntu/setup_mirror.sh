@@ -6,12 +6,15 @@ if [ "$EUID" -ne 0 ]
 fi
 
 USER_HOME="/home/ubuntu"
-ASF_HOME="${USER_HOME}/asf-mirror/asf-mirror-master"
+ASF_HOME="${USER_HOME}/asf-mirror"
 ASF_URL="https://github.com/cmackenzie1/asf-mirror/archive/master.zip"
+ASF_CRONTAB="${ASF_HOME}/crontab/afs-sync"
 ASF_APACHE2_CONF="${ASF_HOME}/apache2/asf-mirror.conf"
 ASF_APACHE2_README="${ASF_HOME}/README.html"
 APACHE2_SITES_AVAILABLE="/etc/apache2/sites-available"
 APACHE2_SITES_ENABLED="/etc/apache2/sites-enabled"
+
+rm -rf ${ASF_HOME}
 
 echo "Updating APT-GET"
 apt-get update -y
@@ -23,6 +26,7 @@ echo "Installing scripts"
 mkdir -p ${ASF_HOME}
 wget ${ASF_URL} -O ${USER_HOME}/asf-mirror.zip
 unzip -o ${USER_HOME}/asf-mirror.zip
+mv ${USER_HOME}/asf-mirror-master ${ASF_HOME}
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
