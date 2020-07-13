@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 USER_HOME="/home/ubuntu"
-ASF_HOME="${USER_HOME}/asf-mirror-master"
+ASF_HOME="${USER_HOME}/asf-mirror/asf-mirror-master"
 ASF_URL="https://github.com/cmackenzie1/asf-mirror/archive/master.zip"
 ASF_APACHE2_CONF="${ASF_HOME}/apache2/asf-mirror.conf"
 ASF_APACHE2_README="${ASF_HOME}/README.html"
