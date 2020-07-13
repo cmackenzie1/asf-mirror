@@ -26,7 +26,7 @@ echo "Installing scripts"
 mkdir -p ${ASF_HOME}
 wget --no-cache ${ASF_URL} -O ${USER_HOME}/asf-mirror.zip
 unzip -o ${USER_HOME}/asf-mirror.zip
-mv ${USER_HOME}/asf-mirror-master ${ASF_HOME}
+mv ${USER_HOME}/asf-mirror/asf-mirror-master ${ASF_HOME}
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
