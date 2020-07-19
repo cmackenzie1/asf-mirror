@@ -1,1 +1,1 @@
-3 5,17 * * * * ubuntu bash /home/ubuntu/asf-mirror/sync_mirror.sh
+5 0,12 * * * ubuntu bash /home/ubuntu/asf-mirror/sync_mirror.sh

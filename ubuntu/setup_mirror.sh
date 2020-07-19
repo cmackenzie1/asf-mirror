@@ -26,21 +26,22 @@ git clone https://github.com/cmackenzie1/asf-mirror.git ${ASF_HOME}
 chown -R ubuntu:ubuntu ${ASF_HOME}
 
 # Cleanup apache conf file if it already exists
-rm -f ${APACHE2_SITES_ENABLED}/apache-mirror.conf
 cp ${ASF_APACHE2_CONF} ${APACHE2_SITES_AVAILABLE}/apache-mirror.conf
 
 echo "Linking files"
 # ln -s [SOURCE] [DEST]
+rm -f ${APACHE2_SITES_ENABLED}/apache-mirror.conf
 ln -s ${APACHE2_SITES_AVAILABLE}/apache-mirror.conf ${APACHE2_SITES_ENABLED}/apache-mirror.conf
 
 echo "Restart apache2 server"
 service apache2 restart
 
 echo "Ensure file permissions are correct"
-cp ${ASF_APACHE2_README} /data/asf/README.html
-chgrp www-data /data/asf/
+rm -f /data/asf/README.html
+ln -s ${ASF_APACHE2_README} /data/asf/README.html || true
 
 echo "Install cron job"
-cp ${ASF_CRONTAB} /etc/cron.d/asf-sync
+rm -f /etc/cron.d/asf-sync
+ln -s ${ASF_CRONTAB} /etc/cron.d/asf-sync || true
 
 echo "Done!"
