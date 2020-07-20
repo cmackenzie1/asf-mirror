@@ -1,0 +1,71 @@
+---
+- name: create ext4 filesystem
+  filesystem:
+    dev: /dev/sdc
+    fstype: ext4
+  
+- name: mount filesystem
+  mount:
+    path: /data/asf
+    src: /dev/sdc
+    state: mounted
+    fstype: ext4
+  
+- name: install rsync
+  apt:
+    name: rsync
+    state: present
+
+- name: mkdir /var/log/asf-sync
+  file:
+    path: /var/log/asf-sync
+    owner: ubuntu
+    group: users
+    recurse: yes
+    state: directory
+    
+- name: install apache httpd
+  apt:
+    name: apache2
+    state: present
+
+- name: mkdir data dir
+  file:
+    path: /data/asf
+    owner: ubuntu
+    group: www-data
+    recurse: yes
+    state: directory
+  
+- name: copy sync script
+  template:
+    src: sync_mirror.sh.j2
+    dest: /home/ubuntu/sync_mirror.sh
+    mode: 'u+rwx'
+
+- name: create cron.d entry
+  cron:
+    cron_file: asf-sync
+    user: ubuntu
+    hour: 0,12
+    job: /bin/bash /home/ubuntu/sync_mirror.sh
+    state: present
+
+- name: apache2 template
+  template:
+    src: apache-mirror.conf.j2
+    dest: /etc/apache2/sites-available/apache-mirror.conf
+
+- name: remove default apache conf
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: restart apache2
+
+- name: apache2 enable site
+  file:
+    src: /etc/apache2/sites-available/apache-mirror.conf
+    dest: /etc/apache2/sites-enabled/apache-mirror.conf
+    state: link
+    modification_time: now
+  notify: restart apache2

@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    DocumentRoot "{{ asf_data_dir }}"
+
+    <Directory {{ asf_data_dir }}>
+        IndexOptions FancyIndexing NameWidth=* FoldersFirst ScanHTMLTitles DescriptionWidth=*
+        HeaderName HEADER.html
+        ReadmeName README.html
+        AllowOverride FileInfo Indexes
+        Options Indexes SymLinksIfOwnerMatch FollowSymLinks
+        ErrorDocument 404 default
+        Require all granted
+    </Directory>
+</VirtualHost>

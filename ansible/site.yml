@@ -1,0 +1,16 @@
+---
+- name: boostrap
+  hosts: all
+  become: yes
+  remote_user: ubuntu
+
+  roles:
+    - common
+
+- name: apache mirror
+  hosts: asf_mirror
+  become: yes
+  remote_user: ubuntu
+
+  roles:
+    - asf_mirror
